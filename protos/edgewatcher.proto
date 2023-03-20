@@ -1,0 +1,90 @@
+/*
+Copyright 2022-2023 The Nephio Authors.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*/
+syntax = "proto3";
+
+option go_package = "edgewatcher/proto";
+import "google/protobuf/timestamp.proto";
+
+package watcher;
+
+enum CRDKind {
+  UPFDeploy = 0;
+  SMFDeploy = 1;
+  AUSFDeploy=2;
+}
+
+enum APIGroup {
+  NFDeployNephioOrg= 0;
+}
+
+enum Version {
+  v1alpha1 = 0;
+}
+
+// RequestMetadata contains watcheragent's request parameters which were used to
+// to configure watcheragent
+message RequestMetadata {
+  optional string namespace=1;
+  optional CRDKind kind=2;
+  optional APIGroup group=3;
+  optional Version version=4;
+}
+
+enum EventType{
+  Added = 0;
+  Modified = 1;
+  Deleted = 2;
+  List = 3;
+}
+
+message Metadata{
+  optional EventType Type=1;
+
+  optional RequestMetadata request=2;
+  // cluster_name is canonical name from one platform api
+  optional string cluster_name=3;
+
+  optional string nfdeploy_name=4;
+}
+
+// EventRequest contains metadata and serialized CR from an edge cluster
+message EventRequest {
+  optional Metadata metadata=1;
+
+  // event_timestamp is used to identify and discard stale events
+  optional google.protobuf.Timestamp event_timestamp=2;
+
+  // object is serialized k8s resource from an edgecluster
+  optional bytes object=3;
+}
+
+enum ResponseType{
+  // OK response signals that the Event was accepted by the edgewatcher
+  OK=0;
+  // RESET response signals that the watcher-agent should reset the watch,
+  // which entails the List call followed by watch calls.
+  // This mechanism can be used by clients in case the original list
+  // gets lost due to a crash.
+  RESET=1;
+}
+
+message EventResponse {
+  optional ResponseType Response=1;
+}
+
+service WatcherService {
+  rpc ReportEvent(EventRequest) returns (EventResponse){}
+}
