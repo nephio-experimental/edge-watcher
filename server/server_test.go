@@ -97,7 +97,7 @@ var _ = Describe("Server", func() {
 				Type: getPtr(pb.EventType_Added),
 				Request: &pb.RequestMetadata{
 					Namespace: getPtr("upf"),
-					Kind:      getPtr(pb.CRDKind_UPFDeploy),
+					Kind:      getPtr(pb.CRDKind_UPFDeployment),
 					Group:     getPtr(pb.APIGroup_NFDeployNephioOrg),
 					Version:   getPtr(pb.Version_v1alpha1),
 				},

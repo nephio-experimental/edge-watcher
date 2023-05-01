@@ -74,7 +74,7 @@ var _ = Describe("CreateWatcherAgentCRs", func() {
 					defer GinkgoRecover()
 					defer wg.Done()
 					clusterName := "edgecluster" + strconv.Itoa(i)
-					expectedYaml := fmt.Sprintf(yamlFormat, testEnv.GetNamespace(), clusterName, timeStamp.Format(time.RFC3339), podIP, port, testEnv.GetNamespace(), testEnv.GetNamespace())
+					expectedYaml := fmt.Sprintf(yamlFormat, testEnv.GetNamespace(), clusterName, timeStamp.Format(time.RFC3339), podIP, port, testEnv.GetNamespace())
 
 					Eventually(func(g Gomega) map[string]string {
 						content, err := porchClient.GetContent(ctx, "watcherAgent", clusterName)
