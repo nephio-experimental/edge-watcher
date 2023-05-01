@@ -21,9 +21,8 @@ import "google/protobuf/timestamp.proto";
 package watcher;
 
 enum CRDKind {
-  UPFDeploy = 0;
-  SMFDeploy = 1;
-  AUSFDeploy=2;
+  UPFDeployment = 0;
+  SMFDeployment = 1;
 }
 
 enum APIGroup {

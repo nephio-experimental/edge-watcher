@@ -24,22 +24,19 @@ const (
 type CRDKind int32
 
 const (
-	CRDKind_UPFDeploy  CRDKind = 0
-	CRDKind_SMFDeploy  CRDKind = 1
-	CRDKind_AUSFDeploy CRDKind = 2
+	CRDKind_UPFDeployment CRDKind = 0
+	CRDKind_SMFDeployment CRDKind = 1
 )
 
 // Enum value maps for CRDKind.
 var (
 	CRDKind_name = map[int32]string{
-		0: "UPFDeploy",
-		1: "SMFDeploy",
-		2: "AUSFDeploy",
+		0: "UPFDeployment",
+		1: "SMFDeployment",
 	}
 	CRDKind_value = map[string]int32{
-		"UPFDeploy":  0,
-		"SMFDeploy":  1,
-		"AUSFDeploy": 2,
+		"UPFDeployment": 0,
+		"SMFDeployment": 1,
 	}
 )
 
@@ -315,7 +312,7 @@ func (x *RequestMetadata) GetKind() CRDKind {
 	if x != nil && x.Kind != nil {
 		return *x.Kind
 	}
-	return CRDKind_UPFDeploy
+	return CRDKind_UPFDeployment
 }
 
 func (x *RequestMetadata) GetGroup() APIGroup {

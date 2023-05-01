@@ -38,13 +38,9 @@ spec:
     addr: %v
     port: "%v"
   watchRequests:
-  - group: nfdeploy.nephio.org
+  - group: workload.nephio.org
     version: v1alpha1
-    kind: UpfDeploy
-    namespace: %v
-  - group: nfdeploy.nephio.org
-    version: v1alpha1
-    kind: AusfDeploy
+    kind: UPFDeployment
     namespace: %v
 `
 
@@ -61,7 +57,7 @@ var _ = Describe("GetYaml", func() {
 		timeStamp = time.Now()
 	})
 	It("should create correct yaml", func() {
-		expectedYaml := fmt.Sprintf(yamlFormat, nephioNamespace, clusterName, timeStamp.Format(time.RFC3339), podIP, port, nephioNamespace, nephioNamespace)
+		expectedYaml := fmt.Sprintf(yamlFormat, nephioNamespace, clusterName, timeStamp.Format(time.RFC3339), podIP, port, nephioNamespace)
 		Expect(watcher.GetYAML(podIP, port, clusterName, nephioNamespace, timeStamp)).Should(Equal(expectedYaml))
 	})
 })

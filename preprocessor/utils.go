@@ -30,7 +30,7 @@ func getRequestKey(metadata *pb.Metadata) RequestKey {
 
 	switch *metadata.Request.Group {
 	case pb.APIGroup_NFDeployNephioOrg:
-		key.Group = "nfdeploy.nephio.org"
+		key.Group = "workload.nephio.org"
 	}
 
 	switch *metadata.Request.Version {
@@ -39,12 +39,10 @@ func getRequestKey(metadata *pb.Metadata) RequestKey {
 	}
 
 	switch *metadata.Request.Kind {
-	case pb.CRDKind_SMFDeploy:
-		key.Kind = "SMFDeploy"
-	case pb.CRDKind_UPFDeploy:
-		key.Kind = "UPFDeploy"
-	case pb.CRDKind_AUSFDeploy:
-		key.Kind = "AUSFDeploy"
+	case pb.CRDKind_SMFDeployment:
+		key.Kind = "SMFDeployment"
+	case pb.CRDKind_UPFDeployment:
+		key.Kind = "UPFDeployment"
 	}
 	return key
 }

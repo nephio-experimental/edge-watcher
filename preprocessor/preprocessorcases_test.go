@@ -28,9 +28,9 @@ import (
 )
 
 var smfDeployGVK = schema.GroupVersionKind{
-	Group:   "nfdeploy.nephio.org",
+	Group:   "workload.nephio.org",
 	Version: "v1alpha1",
-	Kind:    "SMFDeploy",
+	Kind:    "SMFDeployment",
 }
 
 type event struct {
@@ -57,16 +57,16 @@ var eventLists = map[string]event{
 			ClusterName: "cluster1",
 			NFDeploy:    "nfdeploy1",
 			Namespace:   "namespace1",
-			Group:       "nfdeploy.nephio.org",
+			Group:       "workload.nephio.org",
 			Version:     "v1alpha1",
-			Kind:        "SMFDeploy",
+			Kind:        "SMFDeployment",
 		},
 		event: &pb.EventRequest{
 			Metadata: &pb.Metadata{
 				Type: getPtr(pb.EventType_List),
 				Request: &pb.RequestMetadata{
 					Namespace: getPtr("namespace1"),
-					Kind:      getPtr(pb.CRDKind_SMFDeploy),
+					Kind:      getPtr(pb.CRDKind_SMFDeployment),
 					Group:     getPtr(pb.APIGroup_NFDeployNephioOrg),
 					Version:   getPtr(pb.Version_v1alpha1),
 				},
@@ -86,9 +86,9 @@ var eventLists = map[string]event{
 				ClusterName: "cluster1",
 				NFDeploy:    "nfdeploy1",
 				Namespace:   "namespace1",
-				Group:       "nfdeploy.nephio.org",
+				Group:       "workload.nephio.org",
 				Version:     "v1alpha1",
-				Kind:        "SMFDeploy",
+				Kind:        "SMFDeployment",
 			},
 			Timestamp: timestamp,
 			Object: getObject(
@@ -104,16 +104,16 @@ var eventLists = map[string]event{
 			ClusterName: "cluster1",
 			NFDeploy:    "nfdeploy1",
 			Namespace:   "namespace1",
-			Group:       "nfdeploy.nephio.org",
+			Group:       "workload.nephio.org",
 			Version:     "v1alpha1",
-			Kind:        "SMFDeploy",
+			Kind:        "SMFDeployment",
 		},
 		event: &pb.EventRequest{
 			Metadata: &pb.Metadata{
 				Type: getPtr(pb.EventType_Added),
 				Request: &pb.RequestMetadata{
 					Namespace: getPtr("namespace1"),
-					Kind:      getPtr(pb.CRDKind_SMFDeploy),
+					Kind:      getPtr(pb.CRDKind_SMFDeployment),
 					Group:     getPtr(pb.APIGroup_NFDeployNephioOrg),
 					Version:   getPtr(pb.Version_v1alpha1),
 				},
@@ -133,9 +133,9 @@ var eventLists = map[string]event{
 				ClusterName: "cluster1",
 				NFDeploy:    "nfdeploy1",
 				Namespace:   "namespace1",
-				Group:       "nfdeploy.nephio.org",
+				Group:       "workload.nephio.org",
 				Version:     "v1alpha1",
-				Kind:        "SMFDeploy",
+				Kind:        "SMFDeployment",
 			},
 			Timestamp: timestamp,
 			Object: getObject(objectParams{
@@ -150,16 +150,16 @@ var eventLists = map[string]event{
 			ClusterName: "cluster1",
 			NFDeploy:    "nfdeploy1",
 			Namespace:   "namespace1",
-			Group:       "nfdeploy.nephio.org",
+			Group:       "workload.nephio.org",
 			Version:     "v1alpha1",
-			Kind:        "SMFDeploy",
+			Kind:        "SMFDeployment",
 		},
 		event: &pb.EventRequest{
 			Metadata: &pb.Metadata{
 				Type: getPtr(pb.EventType_Modified),
 				Request: &pb.RequestMetadata{
 					Namespace: getPtr("namespace1"),
-					Kind:      getPtr(pb.CRDKind_SMFDeploy),
+					Kind:      getPtr(pb.CRDKind_SMFDeployment),
 					Group:     getPtr(pb.APIGroup_NFDeployNephioOrg),
 					Version:   getPtr(pb.Version_v1alpha1),
 				},
@@ -179,9 +179,9 @@ var eventLists = map[string]event{
 				ClusterName: "cluster1",
 				NFDeploy:    "nfdeploy1",
 				Namespace:   "namespace1",
-				Group:       "nfdeploy.nephio.org",
+				Group:       "workload.nephio.org",
 				Version:     "v1alpha1",
-				Kind:        "SMFDeploy",
+				Kind:        "SMFDeployment",
 			},
 			Timestamp: timestamp,
 			Object: getObject(objectParams{
@@ -196,16 +196,16 @@ var eventLists = map[string]event{
 			ClusterName: "cluster1",
 			NFDeploy:    "nfdeploy1",
 			Namespace:   "namespace1",
-			Group:       "nfdeploy.nephio.org",
+			Group:       "workload.nephio.org",
 			Version:     "v1alpha1",
-			Kind:        "SMFDeploy",
+			Kind:        "SMFDeployment",
 		},
 		event: &pb.EventRequest{
 			Metadata: &pb.Metadata{
 				Type: getPtr(pb.EventType_Deleted),
 				Request: &pb.RequestMetadata{
 					Namespace: getPtr("namespace1"),
-					Kind:      getPtr(pb.CRDKind_SMFDeploy),
+					Kind:      getPtr(pb.CRDKind_SMFDeployment),
 					Group:     getPtr(pb.APIGroup_NFDeployNephioOrg),
 					Version:   getPtr(pb.Version_v1alpha1),
 				},
@@ -225,9 +225,9 @@ var eventLists = map[string]event{
 				ClusterName: "cluster1",
 				NFDeploy:    "nfdeploy1",
 				Namespace:   "namespace1",
-				Group:       "nfdeploy.nephio.org",
+				Group:       "workload.nephio.org",
 				Version:     "v1alpha1",
-				Kind:        "SMFDeploy",
+				Kind:        "SMFDeployment",
 			},
 			Timestamp: timestamp,
 			Object: getObject(objectParams{
