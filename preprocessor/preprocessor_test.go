@@ -105,7 +105,7 @@ var _ = Describe("Preprocessor", func() {
 	})
 	Describe("List event", func() {
 		Context("when router returns nil", func() {
-			It("should send the correct event", func() {
+			It("should send the correct smf event", func() {
 				var sourceWg sync.WaitGroup
 				sourceWg.Add(1)
 				go fakeServer.sendEvents(sourceParams{
@@ -125,9 +125,29 @@ var _ = Describe("Preprocessor", func() {
 				eventReq.Err <- nil
 				sourceWg.Wait()
 			})
+			It("should send the correct amf event", func() {
+				var sourceWg sync.WaitGroup
+				sourceWg.Add(1)
+				go fakeServer.sendEvents(sourceParams{
+					ctx:        ctx,
+					wg:         &sourceWg,
+					shouldFail: false,
+					events:     []*pb.EventRequest{eventLists["amfdeploy list"].event},
+					response:   pb.ResponseType_OK,
+				})
+				eventReq := <-router.RouteEvent(eventLists["amfdeploy list"].key)
+				Expect(*eventLists["amfdeploy list"].finalEvent).To(MatchFields(IgnoreExtras, Fields{
+					"Type":      Equal(eventReq.Event.Type),
+					"Key":       Equal(eventReq.Event.Key),
+					"Timestamp": BeTemporally("==", eventReq.Timestamp),
+					"Object":    Equal(eventReq.Event.Object),
+				}))
+				eventReq.Err <- nil
+				sourceWg.Wait()
+			})
 		})
 		Context("when router return error", func() {
-			It("should return RESET response", func() {
+			It("should return RESET response for smf", func() {
 				var sourceWg sync.WaitGroup
 				sourceWg.Add(1)
 				go fakeServer.sendEvents(sourceParams{
@@ -141,11 +161,25 @@ var _ = Describe("Preprocessor", func() {
 				eventReq.Err <- fmt.Errorf("fake router error")
 				sourceWg.Wait()
 			})
+			It("should return RESET response for amf", func() {
+				var sourceWg sync.WaitGroup
+				sourceWg.Add(1)
+				go fakeServer.sendEvents(sourceParams{
+					ctx:        ctx,
+					wg:         &sourceWg,
+					shouldFail: true,
+					events:     []*pb.EventRequest{eventLists["amfdeploy list"].event},
+					response:   pb.ResponseType_RESET,
+				})
+				eventReq := <-router.RouteEvent(eventLists["amfdeploy list"].key)
+				eventReq.Err <- fmt.Errorf("fake router error")
+				sourceWg.Wait()
+			})
 		})
 	})
 
 	Describe("Watch events", func() {
-		Context("after receiving list", func() {
+		Context("after receiving smf list", func() {
 			BeforeEach(func() {
 				var sourceWg sync.WaitGroup
 				sourceWg.Add(1)
@@ -242,8 +276,105 @@ var _ = Describe("Preprocessor", func() {
 				})
 			})
 		})
+		Context("after receiving amf list", func() {
+			BeforeEach(func() {
+				var sourceWg sync.WaitGroup
+				sourceWg.Add(1)
+				go fakeServer.sendEvents(sourceParams{
+					ctx:        ctx,
+					wg:         &sourceWg,
+					shouldFail: false,
+					events:     []*pb.EventRequest{eventLists["amfdeploy list"].event},
+				})
+				listEventReq := <-router.RouteEvent(eventLists["amfdeploy list"].key)
+				listEventReq.Err <- nil
+				Expect(*eventLists["amfdeploy list"].finalEvent).To(MatchFields(IgnoreExtras, Fields{
+					"Type":      Equal(listEventReq.Event.Type),
+					"Key":       Equal(listEventReq.Event.Key),
+					"Timestamp": BeTemporally("==", listEventReq.Timestamp),
+					"Object":    Equal(listEventReq.Event.Object),
+				}))
+				sourceWg.Wait()
+			})
+			It("should send add watch event", func() {
+				var sourceWg sync.WaitGroup
+				sourceWg.Add(1)
+				go fakeServer.sendEvents(sourceParams{
+					ctx:        ctx,
+					wg:         &sourceWg,
+					shouldFail: false,
+					events:     []*pb.EventRequest{eventLists["amfdeploy add event"].event},
+					response:   pb.ResponseType_OK,
+				})
+				watchEventReq := <-router.RouteEvent(eventLists["amfdeploy add event"].key)
+				Expect(*eventLists["amfdeploy add event"].finalEvent).To(MatchFields(IgnoreExtras, Fields{
+					"Type":      Equal(watchEventReq.Event.Type),
+					"Key":       Equal(watchEventReq.Event.Key),
+					"Timestamp": BeTemporally("==", watchEventReq.Timestamp),
+					"Object":    Equal(watchEventReq.Event.Object),
+				}))
+				watchEventReq.Err <- nil
+				sourceWg.Wait()
+			})
+			It("should send modify watch event", func() {
+				var sourceWg sync.WaitGroup
+				sourceWg.Add(1)
+				go fakeServer.sendEvents(sourceParams{
+					ctx:        ctx,
+					wg:         &sourceWg,
+					shouldFail: false,
+					events:     []*pb.EventRequest{eventLists["amfdeploy modify event"].event},
+					response:   pb.ResponseType_OK,
+				})
+				watchEventReq := <-router.RouteEvent(eventLists["amfdeploy modify event"].key)
+				Expect(*eventLists["amfdeploy modify event"].finalEvent).To(MatchFields(IgnoreExtras, Fields{
+					"Type":      Equal(watchEventReq.Event.Type),
+					"Key":       Equal(watchEventReq.Event.Key),
+					"Timestamp": BeTemporally("==", watchEventReq.Timestamp),
+					"Object":    Equal(watchEventReq.Event.Object),
+				}))
+				watchEventReq.Err <- nil
+				sourceWg.Wait()
+			})
+			It("should send delete watch event", func() {
+				var sourceWg sync.WaitGroup
+				sourceWg.Add(1)
+				go fakeServer.sendEvents(sourceParams{
+					ctx:        ctx,
+					wg:         &sourceWg,
+					shouldFail: false,
+					events:     []*pb.EventRequest{eventLists["amfdeploy delete event"].event},
+					response:   pb.ResponseType_OK,
+				})
+				watchEventReq := <-router.RouteEvent(eventLists["amfdeploy delete event"].key)
+				Expect(*eventLists["amfdeploy delete event"].finalEvent).To(MatchFields(IgnoreExtras, Fields{
+					"Type":      Equal(watchEventReq.Event.Type),
+					"Key":       Equal(watchEventReq.Event.Key),
+					"Timestamp": BeTemporally("==", watchEventReq.Timestamp),
+					"Object":    Equal(watchEventReq.Event.Object),
+				}))
+				watchEventReq.Err <- nil
+				sourceWg.Wait()
+			})
+			Context("router returns error", func() {
+				It("should return RESET response", func() {
+					var sourceWg sync.WaitGroup
+					sourceWg.Add(1)
+					go fakeServer.sendEvents(sourceParams{
+						ctx:        ctx,
+						wg:         &sourceWg,
+						shouldFail: true,
+						events:     []*pb.EventRequest{eventLists["amfdeploy add event"].event},
+						response:   pb.ResponseType_RESET,
+					})
+					watchEventReq := <-router.RouteEvent(eventLists["amfdeploy add event"].key)
+					watchEventReq.Err <- fmt.Errorf("fake router error")
+					sourceWg.Wait()
+				})
+			})
+		})
 		Context("without list event", func() {
-			It("should return RESET response", func() {
+			It("should return RESET response for smf", func() {
 				var sourceWg sync.WaitGroup
 				sourceWg.Add(1)
 				go fakeServer.sendEvents(sourceParams{
@@ -251,6 +382,18 @@ var _ = Describe("Preprocessor", func() {
 					wg:         &sourceWg,
 					shouldFail: true,
 					events:     []*pb.EventRequest{eventLists["smfdeploy add event"].event},
+					response:   pb.ResponseType_RESET,
+				})
+				sourceWg.Wait()
+			})
+			It("should return RESET response for amf", func() {
+				var sourceWg sync.WaitGroup
+				sourceWg.Add(1)
+				go fakeServer.sendEvents(sourceParams{
+					ctx:        ctx,
+					wg:         &sourceWg,
+					shouldFail: true,
+					events:     []*pb.EventRequest{eventLists["amfdeploy add event"].event},
 					response:   pb.ResponseType_RESET,
 				})
 				sourceWg.Wait()

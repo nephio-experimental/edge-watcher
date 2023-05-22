@@ -173,6 +173,11 @@ var _ = Describe("Router", func() {
 					NFDeploy:    "nfdeploy2",
 					Kind:        "SMFDeployment",
 				})...)
+				clusterEvents = append(clusterEvents, generateEvents(500, preprocessor.Added, preprocessor.RequestKey{
+					ClusterName: clusterOption.SubscriptionName,
+					NFDeploy:    "nfdeploy2",
+					Kind:        "AMFDeployment",
+				})...)
 				nfdeployEvents := generateEvents(500, preprocessor.Added, preprocessor.RequestKey{
 					ClusterName: "cluster2",
 					NFDeploy:    nfdeployOption.SubscriptionName,
@@ -182,6 +187,11 @@ var _ = Describe("Router", func() {
 					ClusterName: "cluster2",
 					NFDeploy:    nfdeployOption.SubscriptionName,
 					Kind:        "SMFDeployment",
+				})...)
+				nfdeployEvents = append(nfdeployEvents, generateEvents(500, preprocessor.Added, preprocessor.RequestKey{
+					ClusterName: "cluster2",
+					NFDeploy:    nfdeployOption.SubscriptionName,
+					Kind:        "AMFDeployment",
 				})...)
 
 				var wg sync.WaitGroup

@@ -43,6 +43,8 @@ func getRequestKey(metadata *pb.Metadata) RequestKey {
 		key.Kind = "SMFDeployment"
 	case pb.CRDKind_UPFDeployment:
 		key.Kind = "UPFDeployment"
+	case pb.CRDKind_AMFDeployment:
+		key.Kind = "AMFDeployment"
 	}
 	return key
 }

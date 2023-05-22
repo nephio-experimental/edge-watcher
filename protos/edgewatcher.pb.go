@@ -26,6 +26,7 @@ type CRDKind int32
 const (
 	CRDKind_UPFDeployment CRDKind = 0
 	CRDKind_SMFDeployment CRDKind = 1
+	CRDKind_AMFDeployment CRDKind = 2
 )
 
 // Enum value maps for CRDKind.
@@ -33,10 +34,12 @@ var (
 	CRDKind_name = map[int32]string{
 		0: "UPFDeployment",
 		1: "SMFDeployment",
+		2: "AMFDeployment",
 	}
 	CRDKind_value = map[string]int32{
 		"UPFDeployment": 0,
 		"SMFDeployment": 1,
+		"AMFDeployment": 2,
 	}
 )
 

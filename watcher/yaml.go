@@ -36,6 +36,9 @@ const (
 	smfDeployGroup         = "workload.nephio.org"
 	smfDeployKind          = "SMFDeployment"
 	smfDeployVersion       = "v1alpha1"
+	amfDeployGroup         = "workload.nephio.org"
+	amfDeployKind          = "AMFDeployment"
+	amfDeployVersion       = "v1alpha1"
 )
 
 type watcherAgent struct {
@@ -72,6 +75,18 @@ func GetYAML(IP, port, clusterName, nephioNamespace string, timestamp time.Time)
 					Kind:      upfDeployKind,
 					Namespace: nephioNamespace,
 					Version:   upfDeployVersion,
+				},
+				{
+					Group:     smfDeployGroup,
+					Kind:      smfDeployKind,
+					Namespace: nephioNamespace,
+					Version:   smfDeployVersion,
+				},
+				{
+					Group:     amfDeployGroup,
+					Kind:      amfDeployKind,
+					Namespace: nephioNamespace,
+					Version:   amfDeployVersion,
 				},
 			},
 		},
