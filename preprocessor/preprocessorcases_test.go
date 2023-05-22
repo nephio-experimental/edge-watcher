@@ -33,6 +33,12 @@ var smfDeployGVK = schema.GroupVersionKind{
 	Kind:    "SMFDeployment",
 }
 
+var amfDeployGVK = schema.GroupVersionKind{
+	Group:   "workload.nephio.org",
+	Version: "v1alpha1",
+	Kind:    "AMFDeployment",
+}
+
 type event struct {
 	key        preprocessor.RequestKey
 	event      *pb.EventRequest
@@ -234,6 +240,191 @@ var eventLists = map[string]event{
 				name:      "object1",
 				namespace: "namespace1",
 				gvk:       smfDeployGVK,
+			}),
+		},
+	},
+	"amfdeploy list": {
+		key: preprocessor.RequestKey{
+			ClusterName: "cluster1",
+			NFDeploy:    "nfdeploy1",
+			Namespace:   "namespace1",
+			Group:       "workload.nephio.org",
+			Version:     "v1alpha1",
+			Kind:        "AMFDeployment",
+		},
+		event: &pb.EventRequest{
+			Metadata: &pb.Metadata{
+				Type: getPtr(pb.EventType_List),
+				Request: &pb.RequestMetadata{
+					Namespace: getPtr("namespace1"),
+					Kind:      getPtr(pb.CRDKind_AMFDeployment),
+					Group:     getPtr(pb.APIGroup_NFDeployNephioOrg),
+					Version:   getPtr(pb.Version_v1alpha1),
+				},
+				ClusterName:  getPtr("cluster1"),
+				NfdeployName: getPtr("nfdeploy1"),
+			},
+			EventTimestamp: timestamppb.New(timestamp),
+			Object: serialize(getObject(objectParams{
+				name:      "object1",
+				namespace: "namespace1",
+				gvk:       amfDeployGVK,
+			})),
+		},
+		finalEvent: &preprocessor.Event{
+			Type: preprocessor.List,
+			Key: preprocessor.RequestKey{
+				ClusterName: "cluster1",
+				NFDeploy:    "nfdeploy1",
+				Namespace:   "namespace1",
+				Group:       "workload.nephio.org",
+				Version:     "v1alpha1",
+				Kind:        "AMFDeployment",
+			},
+			Timestamp: timestamp,
+			Object: getObject(
+				objectParams{
+					name:      "object1",
+					namespace: "namespace1",
+					gvk:       amfDeployGVK,
+				}),
+		},
+	},
+	"amfdeploy add event": {
+		key: preprocessor.RequestKey{
+			ClusterName: "cluster1",
+			NFDeploy:    "nfdeploy1",
+			Namespace:   "namespace1",
+			Group:       "workload.nephio.org",
+			Version:     "v1alpha1",
+			Kind:        "AMFDeployment",
+		},
+		event: &pb.EventRequest{
+			Metadata: &pb.Metadata{
+				Type: getPtr(pb.EventType_Added),
+				Request: &pb.RequestMetadata{
+					Namespace: getPtr("namespace1"),
+					Kind:      getPtr(pb.CRDKind_AMFDeployment),
+					Group:     getPtr(pb.APIGroup_NFDeployNephioOrg),
+					Version:   getPtr(pb.Version_v1alpha1),
+				},
+				ClusterName:  getPtr("cluster1"),
+				NfdeployName: getPtr("nfdeploy1"),
+			},
+			EventTimestamp: timestamppb.New(timestamp),
+			Object: serialize(getObject(objectParams{
+				name:      "object1",
+				namespace: "namespace1",
+				gvk:       amfDeployGVK,
+			})),
+		},
+		finalEvent: &preprocessor.Event{
+			Type: preprocessor.Added,
+			Key: preprocessor.RequestKey{
+				ClusterName: "cluster1",
+				NFDeploy:    "nfdeploy1",
+				Namespace:   "namespace1",
+				Group:       "workload.nephio.org",
+				Version:     "v1alpha1",
+				Kind:        "AMFDeployment",
+			},
+			Timestamp: timestamp,
+			Object: getObject(objectParams{
+				name:      "object1",
+				namespace: "namespace1",
+				gvk:       amfDeployGVK,
+			}),
+		},
+	},
+	"amfdeploy modify event": {
+		key: preprocessor.RequestKey{
+			ClusterName: "cluster1",
+			NFDeploy:    "nfdeploy1",
+			Namespace:   "namespace1",
+			Group:       "workload.nephio.org",
+			Version:     "v1alpha1",
+			Kind:        "AMFDeployment",
+		},
+		event: &pb.EventRequest{
+			Metadata: &pb.Metadata{
+				Type: getPtr(pb.EventType_Modified),
+				Request: &pb.RequestMetadata{
+					Namespace: getPtr("namespace1"),
+					Kind:      getPtr(pb.CRDKind_AMFDeployment),
+					Group:     getPtr(pb.APIGroup_NFDeployNephioOrg),
+					Version:   getPtr(pb.Version_v1alpha1),
+				},
+				ClusterName:  getPtr("cluster1"),
+				NfdeployName: getPtr("nfdeploy1"),
+			},
+			EventTimestamp: timestamppb.New(timestamp),
+			Object: serialize(getObject(objectParams{
+				name:      "object1",
+				namespace: "namespace1",
+				gvk:       amfDeployGVK,
+			})),
+		},
+		finalEvent: &preprocessor.Event{
+			Type: preprocessor.Modified,
+			Key: preprocessor.RequestKey{
+				ClusterName: "cluster1",
+				NFDeploy:    "nfdeploy1",
+				Namespace:   "namespace1",
+				Group:       "workload.nephio.org",
+				Version:     "v1alpha1",
+				Kind:        "AMFDeployment",
+			},
+			Timestamp: timestamp,
+			Object: getObject(objectParams{
+				name:      "object1",
+				namespace: "namespace1",
+				gvk:       amfDeployGVK,
+			}),
+		},
+	},
+	"amfdeploy delete event": {
+		key: preprocessor.RequestKey{
+			ClusterName: "cluster1",
+			NFDeploy:    "nfdeploy1",
+			Namespace:   "namespace1",
+			Group:       "workload.nephio.org",
+			Version:     "v1alpha1",
+			Kind:        "AMFDeployment",
+		},
+		event: &pb.EventRequest{
+			Metadata: &pb.Metadata{
+				Type: getPtr(pb.EventType_Deleted),
+				Request: &pb.RequestMetadata{
+					Namespace: getPtr("namespace1"),
+					Kind:      getPtr(pb.CRDKind_AMFDeployment),
+					Group:     getPtr(pb.APIGroup_NFDeployNephioOrg),
+					Version:   getPtr(pb.Version_v1alpha1),
+				},
+				ClusterName:  getPtr("cluster1"),
+				NfdeployName: getPtr("nfdeploy1"),
+			},
+			EventTimestamp: timestamppb.New(timestamp),
+			Object: serialize(getObject(objectParams{
+				name:      "object1",
+				namespace: "namespace1",
+				gvk:       amfDeployGVK,
+			})),
+		},
+		finalEvent: &preprocessor.Event{
+			Type: preprocessor.Deleted,
+			Key: preprocessor.RequestKey{
+				ClusterName: "cluster1",
+				NFDeploy:    "nfdeploy1",
+				Namespace:   "namespace1",
+				Group:       "workload.nephio.org",
+				Version:     "v1alpha1",
+				Kind:        "AMFDeployment",
+			},
+			Timestamp: timestamp,
+			Object: getObject(objectParams{
+				name:      "object1",
+				namespace: "namespace1",
+				gvk:       amfDeployGVK,
 			}),
 		},
 	},

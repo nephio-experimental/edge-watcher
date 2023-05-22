@@ -23,6 +23,7 @@ package watcher;
 enum CRDKind {
   UPFDeployment = 0;
   SMFDeployment = 1;
+  AMFDeployment = 2;
 }
 
 enum APIGroup {

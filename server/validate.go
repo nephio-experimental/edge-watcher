@@ -32,7 +32,7 @@ func (server *edgeWatcherServer) validateRequestMetadata(
 		return fmt.Errorf("RequestMetadata.Kind not found")
 	}
 	switch *metadata.Kind {
-	case pb.CRDKind_UPFDeployment, pb.CRDKind_SMFDeployment:
+	case pb.CRDKind_UPFDeployment, pb.CRDKind_SMFDeployment, pb.CRDKind_AMFDeployment:
 	default:
 		return fmt.Errorf("unknown RequestMetadata.Kind received: %v",
 			*metadata.Kind)
