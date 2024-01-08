@@ -1,3 +1,9 @@
+WARNING: This repository is published by the [Nephio Authors](https://nephio.org/) but is
+neither endorsed nor maintained by the Nephio Technical Steering Committee (TSC). It is intended
+to be used for reference only. The Nephio distribution repositories are located in the
+[`nephio-project` organization](https://github.com/nephio-project). For more information
+[see this page](https://nephio.org/experimental).
+
 # EdgeWatcher
 EdgeWatcher is a gRPC server which receives the current serialized state of Kubernetes objects from the [WatcherAgent](https://github.com/nephio-project/watcher-agent). It also exposes events for client (an example of a client is the deployment entity of [NFDeploy Controller](https://github.com/nephio-project/nf-deploy-controller) to subscribe to in getting status updates.
 
